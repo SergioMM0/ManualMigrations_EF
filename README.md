@@ -2,11 +2,7 @@
 
 The branch [Master](https://github.com/SergioMM0/ManualMigrations_EF) contains the migration history generated with EF Core.
 
-Before running the API, make sure to run the command:
-
-```bash
-dotnet ef database update
-```
+The database file is present inside the API folder under the name 'BloggingDatabase.db' and it contains the migrations made with EF Core.
 
 ## Creating a migration
 
