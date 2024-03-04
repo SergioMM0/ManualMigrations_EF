@@ -35,3 +35,9 @@ In order to rollback the current state of the database to any other migration ru
 ```bash
 dotnet ef database update [NameOfTheMigrationYouWantToRollback]
 ```
+
+# SQLScript branch
+
+This branch contains a folder in /API/SQLScripts that contains all the SQL Scripts for performing manual migrations. 
+
+Also notice that this branch contains an outdated version of the database which is ready to be migrated.
