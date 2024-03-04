@@ -1,4 +1,3 @@
-using System.Reflection.Metadata;
 using API.Domain.Entities;
 using API.Infrastructure.DatabaseContext;
 using Microsoft.AspNetCore.Mvc;
@@ -17,11 +16,13 @@ public class MainController : ControllerBase {
         
         _comment1 = new Comment() {
             Id = Guid.NewGuid(),
-            Text = "This is the body of the comment 1"
+            Text = "This is the body of the comment 1",
+            Signature = "signature"
         };
         _comment2 = new Comment() {
             Id = Guid.NewGuid(),
-            Text = "This is the body of the comment 2"
+            Text = "This is the body of the comment 2",
+            Signature = "signature2"
         };
     }
 
