@@ -48,7 +48,7 @@ dotnet ef database update [NameOfTheMigrationYouWantToRollback]
 
 The branch [Manual](https://github.com/SergioMM0/ManualMigrations_EF/tree/Manual) contains a folder in /API/SQLScripts that contains all the SQL Scripts for performing manual migrations. 
 
-Notice that this branch contains the database ready to be migrated.
+Notice that this branch contains the database file ready to be migrated.
 
 ## Executing the migration
 
