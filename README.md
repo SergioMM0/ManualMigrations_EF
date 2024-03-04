@@ -12,7 +12,7 @@ After making sure that the current state of the database matches the latest migr
 dotnet ef migrations add [DescriptionOfTheMigration]
 ```
 
-Review the generated migration by checking the .Migration file inside the folder 'Migrations':
+Review the generated migration by checking the .Designer file inside the folder 'Migrations':
 
 ![image](https://github.com/SergioMM0/ManualMigrations_EF/assets/90683062/51db93bc-8bac-47af-9f19-d7dbe60d420f)
 
