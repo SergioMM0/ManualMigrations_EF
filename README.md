@@ -41,3 +41,13 @@ dotnet ef database update [NameOfTheMigrationYouWantToRollback]
 This branch contains a folder in /API/SQLScripts that contains all the SQL Scripts for performing manual migrations. 
 
 Also notice that this branch contains an outdated version of the database which is ready to be migrated.
+
+## Executing the migration
+
+To perform the migration, execute the SQL Script named 'V1_04032024_InitialCreate_to_RefactorBlogAndComment.sql' in the console of the database.
+
+## Rollback
+
+To perform a rollback, execute the SQL Script named 'V1_04032024_Rollback_RefactorBlogAndComment_to_InitialCreate.sql' in the console of the database.
+
+
