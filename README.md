@@ -1,4 +1,4 @@
-# EF branch
+# EF
 
 The branch [Master](https://github.com/SergioMM0/ManualMigrations_EF) contains the migration history generated with EF Core.
 
@@ -36,7 +36,7 @@ In order to rollback the current state of the database to any other migration ru
 dotnet ef database update [NameOfTheMigrationYouWantToRollback]
 ```
 
-# Manual branch
+# Manual
 
 This branch contains a folder in /API/SQLScripts that contains all the SQL Scripts for performing manual migrations. 
 
