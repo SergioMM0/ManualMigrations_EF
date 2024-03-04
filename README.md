@@ -40,7 +40,7 @@ dotnet ef database update [NameOfTheMigrationYouWantToRollback]
 
 This branch contains a folder in /API/SQLScripts that contains all the SQL Scripts for performing manual migrations. 
 
-Also notice that this branch contains an outdated version of the database which is ready to be migrated.
+Notice that this branch contains the database ready to be migrated.
 
 ## Executing the migration
 
