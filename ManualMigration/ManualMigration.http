@@ -1,0 +1,6 @@
+@ManualMigration_HostAddress = http://localhost:5261
+
+GET {{ManualMigration_HostAddress}}/api
+Accept: application/json
+
+###
