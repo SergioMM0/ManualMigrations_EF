@@ -13,6 +13,10 @@ namespace API.Infrastructure.DatabaseContext {
 
         public DbSet<Category> Categories { get; set; } = default!;
 
+        public DbSet<Rating> Ratings { get; set; } = default!;
+
+        public DbSet<ProductRating> ProductRatings { get; set; } = default!;
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) {
         }
@@ -31,6 +35,19 @@ namespace API.Infrastructure.DatabaseContext {
                 .HasOne<Category>()
                 .WithMany()       
                 .HasForeignKey(p => p.Category_Id);
+            
+            modelBuilder.Entity<ProductRating>()
+                .HasKey(pr => new { pr.ProductId, pr.RatingId }); // Composite primary key
+
+            modelBuilder.Entity<ProductRating>()
+                .HasOne(pr => pr.Product)
+                .WithMany(p => p.ProductRatings)
+                .HasForeignKey(pr => pr.ProductId);
+
+            modelBuilder.Entity<ProductRating>()
+                .HasOne(pr => pr.Rating)
+                .WithMany(r => r.ProductRatings)
+                .HasForeignKey(pr => pr.RatingId);
 
         }
         
