@@ -3,6 +3,7 @@ using System;
 using API.Infrastructure.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240311085817_AddCategories")]
+    partial class AddCategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.16");
@@ -106,35 +109,6 @@ namespace API.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("API.Domain.Entities.ProductRating", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("RatingId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("ProductId", "RatingId");
-
-                    b.HasIndex("RatingId");
-
-                    b.ToTable("ProductRatings");
-                });
-
-            modelBuilder.Entity("API.Domain.Entities.Rating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<double>("Value")
-                        .HasColumnType("REAL");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ratings");
-                });
-
             modelBuilder.Entity("API.Domain.Entities.Comment", b =>
                 {
                     b.HasOne("API.Domain.Entities.Blog", null)
@@ -159,25 +133,6 @@ namespace API.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("API.Domain.Entities.ProductRating", b =>
-                {
-                    b.HasOne("API.Domain.Entities.Product", "Product")
-                        .WithMany("ProductRatings")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Domain.Entities.Rating", "Rating")
-                        .WithMany("ProductRatings")
-                        .HasForeignKey("RatingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Rating");
-                });
-
             modelBuilder.Entity("API.Domain.Entities.Blog", b =>
                 {
                     b.Navigation("Comments");
@@ -186,16 +141,6 @@ namespace API.Migrations
             modelBuilder.Entity("API.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("API.Domain.Entities.Product", b =>
-                {
-                    b.Navigation("ProductRatings");
-                });
-
-            modelBuilder.Entity("API.Domain.Entities.Rating", b =>
-                {
-                    b.Navigation("ProductRatings");
                 });
 #pragma warning restore 612, 618
         }
