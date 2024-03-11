@@ -406,3 +406,7 @@ ASALocalRun/
 
 API/obj/
 API/obj/Debug/
+API/obj/Debug/net7.0/API.AssemblyInfo.cs
+API/obj/Debug/net7.0/API.AssemblyInfoInputs.cache
+API/obj/Debug/net7.0/API.assets.cache
+API/obj/Debug/net7.0/API.GeneratedMSBuildEditorConfig.editorconfig
