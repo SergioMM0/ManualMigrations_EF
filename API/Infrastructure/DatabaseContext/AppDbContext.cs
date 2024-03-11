@@ -14,7 +14,8 @@ namespace API.Infrastructure.DatabaseContext {
         public DbSet<Category> Categories { get; set; } = default!;
 
         public DbSet<Rating> Ratings { get; set; } = default!;
-
+        
+        // Join table for reference access
         public DbSet<ProductRating> ProductRatings { get; set; } = default!;
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -36,19 +37,21 @@ namespace API.Infrastructure.DatabaseContext {
                 .WithMany()       
                 .HasForeignKey(p => p.Category_Id);
             
+            // This joint table provides navigation properties to EF so it can be accessed inside the same context
             modelBuilder.Entity<ProductRating>()
                 .HasKey(pr => new { pr.ProductId, pr.RatingId }); // Composite primary key
 
             modelBuilder.Entity<ProductRating>()
                 .HasOne(pr => pr.Product)
-                .WithMany(p => p.ProductRatings)
+                .WithMany(p => p.ProductRatings) // Reference to joint table
                 .HasForeignKey(pr => pr.ProductId);
 
             modelBuilder.Entity<ProductRating>()
                 .HasOne(pr => pr.Rating)
-                .WithMany(r => r.ProductRatings)
+                .WithMany(r => r.ProductRatings) // Reference to joint table
                 .HasForeignKey(pr => pr.RatingId);
 
+            
         }
         
     }
