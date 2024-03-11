@@ -1,34 +1,57 @@
 # Manual Migration 
-### Compulsory Assignment: Databases For Developers
----
+## Compulsory Assignment: Databases For Developers
 
-[Provide a brief description of your project]
+This is the manual branch of the database migration assignment. Included below is the full rollback plan to revert any changes to the database schema so far.
 
-Setup
-[Include instructions on how to set up and run your project]
+### **Setup**
+You could run the project using `dotnet run` in the console which would make the database accessible via the web API. Here you can test whether or not the database remained stable after a migration or rollback.
 
-Database Migration Rollback Instructions
-[Explain how to revert each migration using SQL scripts. Include step-by-step instructions for each migration reversal.]
+### **Database Migration Rollback Instructions**
+To roll back to a previous iteration, an SQL script needs to be executed in order to guarantee a stable transition from one version of the database to another. The SQL scripts are given in order for ease of use. Make sure you test whether or not the rollback procedure has resulted in a clean migration. Before you perform a rollback of any kind, please follow the best practices.
 
-Revert Initial Schema Setup
-To revert the initial schema setup migration, follow these steps:
+**Best practices for performing rollbacks:**
+- Back up your database before executing the rollback script to revert the changes. This allows you to restore the database to its state before the rollback if needed.
+- Analyze the data in the affected tables before executing the rollback script to identify any critical information that might be lost.
+- Communicate the rollback process and potential data loss to stakeholders to ensure awareness and agreement.
 
-[Provide the SQL script to drop the Products table]
-[Explain how to execute the SQL script against the database]
-Revert Add Product Categories
-To revert the addition of product categories migration, follow these steps:
+### **Revert Product Ratings**
+To revert the implementation of the product ratings migration, follow these steps:\
+Execute these statements in your SQLite database management tool or run them in your application's migration process.
+```
+-- Drop foreign key constraint on Products table
+-- This ensures that there are no constraints preventing the removal of the Rating column
+ALTER TABLE Products DROP CONSTRAINT IF EXISTS FK_Products_ProductRatings;
 
-[Provide the SQL script to drop the Categories table]
-[Explain how to execute the SQL script against the database]
-[Include any additional steps required, such as removing the category_id column from the Products table]
-Revert Implement Product Ratings
-To revert the implementation of product ratings migration, follow these steps:
+-- Remove Rating column from Products table
+ALTER TABLE Products DROP COLUMN IF EXISTS Rating;
 
-[Provide the SQL script to drop the ProductRatings table]
-[Explain how to execute the SQL script against the database]
-Rollback Process
-[Summarize the steps involved in rolling back all migrations to revert the database to its initial state. Include any additional considerations or precautions.]
+-- Drop ProductRatings table
+DROP TABLE IF EXISTS ProductRatings;
+```
 
-[List the order in which migrations should be reverted]
-[Mention any potential data loss or implications of reverting migrations]
-[Provide any necessary backup procedures or precautions]
+**Potential data loss:**
+1. If any data was added to the Rating column of the Products table, and those values correspond to valid foreign keys in the ProductRatings table, dropping the foreign key constraint could result in orphaned data in the Products table. However, since the Rating column was added with a default value of 0.0, this scenario is less likely.
+2. If any data was added to the Rating column of the Products table, it would be lost when the column is removed. Since the script doesn't specify a mechanism to preserve or migrate this data, it would be dropped.
+3. Any data stored in the ProductRatings table would be lost when the table is dropped. This includes any product ratings that were recorded before the rollback script is executed.
+
+### **Revert Product Categories**
+To revert the addition of product categories migration, follow these steps:\
+Execute these statements in your SQLite database management tool or run them in your application's migration process.
+```
+-- Drop foreign key constraint on Products table
+-- This ensures that there are no constraints preventing the removal of the Categories column
+ALTER TABLE Products DROP CONSTRAINT IF EXISTS FK_Products_Categories;
+
+-- Remove category_id column from Products table
+ALTER TABLE Products DROP COLUMN IF EXISTS category_id;
+
+-- Drop Categories table
+DROP TABLE IF EXISTS Categories;
+```
+**Potential data loss:**
+1. Dropping the foreign key constraint FK_Products_Categories on the Products table shouldn't result in any immediate data loss. However, if referential integrity constraints were violated before dropping the constraint, orphaned data in the Products table could be present. Dropping the constraint wouldn't resolve this issue, but it would allow data modifications without enforcing referential integrity.
+2. If there were existing records in the Products table that contained values in the category_id column, removing the column would result in the loss of these values. Since the script doesn't specify a mechanism to preserve or migrate this data, it would be dropped. If the category_id column was added with a default value of 1 as in the original script, any records without explicit values would have been assigned this default value.
+3. Dropping the Categories table would result in the loss of all data stored in this table. If there were any categories defined and associated with products in the Products table, this information would be lost.
+
+### **Full rollback to initial schema**
+To get a full rollback to the initial schema, perform all rollbacks from the top down in order. So start first with reverting the product ratings, followed by reverting the product categories. This will result in the database with the products containing an Id, name and price for each product. **Any other data would be lost during rollback** so make sure the database is backed up before proceeding with a full rollback.
