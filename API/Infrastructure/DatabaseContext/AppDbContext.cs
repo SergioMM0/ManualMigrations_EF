@@ -8,14 +8,17 @@ namespace API.Infrastructure.DatabaseContext {
 
         public DbSet<Comment> Comments { get; set; } = default!;
 
+        public DbSet<Product> Products { get; set; } = default!;
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) {
         }
 
+        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Blog>()
+            /*
+             modelBuilder.Entity<Blog>()
                 .HasMany(b => b.Comments)
                 .WithOne()
                 .HasForeignKey("BlogId")
@@ -31,6 +34,8 @@ namespace API.Infrastructure.DatabaseContext {
                 .Property(c => c.Text)
                 .IsRequired()
                 .HasMaxLength(500);
+                
         }
+        */
     }
 }
