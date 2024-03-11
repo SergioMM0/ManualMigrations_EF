@@ -6,6 +6,17 @@ This is the manual branch of the database migration assignment. Included below i
 ### **Setup**
 You could run the project using `dotnet run` in the console which would make the database accessible via the web API. Here you can test whether or not the database remained stable after a migration or rollback.
 
+### **Database Migration instructions**
+To migrate to the next iteration of the database, SQL scripts are added in the folder "SQLScripts". Make sure you know at what iteration you are currently on before migrating. The SQL scripts in chronological order are: *initial_schema.sql*, *AddProductRatings.sql* and *AddCategories.sql*. Make sure you to back up the database in case the migration fails to prevent any data loss from occurring.
+
+Here are the migrations in order:\
+1. Migration from initial schema to add categories:
+    Execute AddCategories.sql after checking if the database matches the initial schema architecture.
+2. Migration from the categories schema to add ratings:
+    Execute AddProductRatings.sql after checking if the database matches the schema architecture that ecompasses both the initial schema and the categories schema.
+3. Migration from the initial schema to the current schema:
+    Execute the previous steps in order.
+
 ### **Database Migration Rollback Instructions**
 To roll back to a previous iteration, an SQL script needs to be executed in order to guarantee a stable transition from one version of the database to another. The SQL scripts are given in order for ease of use. Make sure you test whether or not the rollback procedure has resulted in a clean migration. Before you perform a rollback of any kind, please follow the best practices.
 
