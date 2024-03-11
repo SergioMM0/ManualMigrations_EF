@@ -39,6 +39,21 @@ namespace API.Migrations
                     b.ToTable("Blogs");
                 });
 
+            modelBuilder.Entity("API.Domain.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("API.Domain.Entities.Comment", b =>
                 {
                     b.Property<Guid>("Id")
@@ -69,6 +84,9 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Category_Id")
                         .HasColumnType("INTEGER");
 
@@ -81,6 +99,10 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("Category_Id");
+
                     b.ToTable("Products");
                 });
 
@@ -91,9 +113,31 @@ namespace API.Migrations
                         .HasForeignKey("BlogId");
                 });
 
+            modelBuilder.Entity("API.Domain.Entities.Product", b =>
+                {
+                    b.HasOne("API.Domain.Entities.Category", "Category")
+                        .WithMany("Products")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Domain.Entities.Category", null)
+                        .WithMany()
+                        .HasForeignKey("Category_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("API.Domain.Entities.Blog", b =>
                 {
                     b.Navigation("Comments");
+                });
+
+            modelBuilder.Entity("API.Domain.Entities.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

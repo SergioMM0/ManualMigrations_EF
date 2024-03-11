@@ -1,4 +1,5 @@
-﻿using API.Domain.Entities;
+﻿using System.ComponentModel;
+using API.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Infrastructure.DatabaseContext {
@@ -10,32 +11,28 @@ namespace API.Infrastructure.DatabaseContext {
 
         public DbSet<Product> Products { get; set; } = default!;
 
+        public DbSet<Category> Categories { get; set; } = default!;
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options) {
         }
 
-        /*
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             base.OnModelCreating(modelBuilder);
-            /*
-             modelBuilder.Entity<Blog>()
-                .HasMany(b => b.Comments)
-                .WithOne()
-                .HasForeignKey("BlogId")
-                .IsRequired();
 
-            modelBuilder.Entity<Blog>()
-                .HasKey(b => b.Id);
+            modelBuilder.Entity<Product>()
+                .HasKey(p => p.Id);
 
-            modelBuilder.Entity<Comment>()
+            modelBuilder.Entity<Category>()
                 .HasKey(c => c.Id);
+            
+            modelBuilder.Entity<Product>()
+                .HasOne<Category>()
+                .WithMany()       
+                .HasForeignKey(p => p.Category_Id);
 
-            modelBuilder.Entity<Comment>()
-                .Property(c => c.Text)
-                .IsRequired()
-                .HasMaxLength(500);
-                
         }
-        */
+        
     }
 }
